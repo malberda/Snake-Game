@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3 uid="uid://cc30gy4xrxmp1"]
+
+[ext_resource type="Script" uid="uid://ccyoj473ksc82" path="res://assets/scripts/enemy.gd" id="1_kbpvo"]
+[ext_resource type="Texture2D" uid="uid://dnvctahc7mobi" path="res://assets/sprites/enemy_sprite_v1-Sheet.png" id="1_kvq5h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbpvo"]
+atlas = ExtResource("1_kvq5h")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55kjn"]
+atlas = ExtResource("1_kvq5h")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4rmu"]
+atlas = ExtResource("1_kvq5h")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovi8q"]
+atlas = ExtResource("1_kvq5h")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2q6g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbpvo")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55kjn")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4rmu")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovi8q")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kvq5h"]
+radius = 5.0
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_kbpvo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t2q6g")
+animation = &"down"
+autoplay = "down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_kvq5h")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0.6666667, 30)
+polygon = PackedVector2Array(-21.666666, 11, -0.6666667, -30, 21.333334, 11, -0.6666667, 19)

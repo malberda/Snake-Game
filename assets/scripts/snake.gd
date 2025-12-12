@@ -1,14 +1,23 @@
 extends CharacterBody2D
 
-@export var speed = 200;
+var speed = 200;
 var box = false;
+@onready var snake_collision_area: Area2D = $snakeCollisionArea
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	process_movement();
+	
+	
+	
+	
+	
+	
+func process_movement():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	if Input.is_action_just_pressed("Space") && !box:
 		box = true;
-		$AnimatedSprite2D.play("boxWalk");
+		$AnimatedSprite2D.play("walkBox");
 	elif Input.is_action_just_pressed("Space"):
 		box = false;
 	
@@ -21,36 +30,39 @@ func _physics_process(delta: float) -> void:
 		
 	if Input.is_action_pressed("right"):
 		if (box):
-			$AnimatedSprite2D.play("boxWalk");
+			$AnimatedSprite2D.play("walkBox");
 			$AnimatedSprite2D.rotation_degrees = 90
 		else:
+			$AnimatedSprite2D.rotation_degrees = 0
 			$AnimatedSprite2D.play("walkRight")
 		input_direction.y = 0
 	elif Input.is_action_pressed("left"):
 		if (box):
-			$AnimatedSprite2D.play("boxWalk");
+			$AnimatedSprite2D.play("walkBox");
 			$AnimatedSprite2D.rotation_degrees = 270
 		else:
+			$AnimatedSprite2D.rotation_degrees = 0
 			$AnimatedSprite2D.play("walkLeft")
 		input_direction.y = 0
 	elif Input.is_action_pressed("up"):
 		if (box):
-			$AnimatedSprite2D.play("boxWalk");
+			$AnimatedSprite2D.play("walkBox");
 			$AnimatedSprite2D.rotation_degrees = 0
 		else:
+			$AnimatedSprite2D.rotation_degrees = 0
 			$AnimatedSprite2D.play("walkUp")
 		input_direction.x = 0
 	elif Input.is_action_pressed("down"):
 		if (box):
-			$AnimatedSprite2D.play("boxWalk");
+			$AnimatedSprite2D.play("walkBox");
 			$AnimatedSprite2D.rotation_degrees = 180
 		else:
+			$AnimatedSprite2D.rotation_degrees = 0
 			$AnimatedSprite2D.play("walkDown")
 		input_direction.x = 0
 	else:
 		$AnimatedSprite2D.pause()
 		input_direction = Vector2.ZERO
-		
 		
 	input_direction = input_direction.normalized()
 	velocity = input_direction*speed;
