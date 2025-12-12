@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Snake Game"
+run/main_scene="uid://ci4p51is0wfda"
 config/features=PackedStringArray("4.5", "Forward Plus")
 
 [dotnet]
 
 project/assembly_name="Snake Game"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

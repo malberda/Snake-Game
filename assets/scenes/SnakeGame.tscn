@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://ci4p51is0wfda"]
+[gd_scene load_steps=2 format=3 uid="uid://ci4p51is0wfda"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://hlrlo37kmn0m" path="res://assets/scenes/Snake.tscn" id="1_oxs2q"]
+
+[node name="SnakeGame" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimatedSprite2D" parent="." instance=ExtResource("1_oxs2q")]
+position = Vector2(11, -9)
+scale = Vector2(2.25, 2.25)

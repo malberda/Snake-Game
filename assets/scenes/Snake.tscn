@@ -1,5 +1,161 @@
-[gd_scene format=3 uid="uid://hlrlo37kmn0m"]
+[gd_scene load_steps=19 format=3 uid="uid://hlrlo37kmn0m"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[ext_resource type="Texture2D" uid="uid://b728rosowdity" path="res://assets/sprites/snake_attempt_1.png" id="1_1jr7n"]
+[ext_resource type="Script" uid="uid://sypipb7eommd" path="res://assets/scripts/snake.gd" id="2_lnrgr"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnrgr"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4nsn"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(96, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmcae"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(112, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jr7n"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esrsn"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxip0"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxvd4"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrgsl"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3ips"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4tbk"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipssx"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ax1wx"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lj2vl"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32we8"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sikn2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnrgr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4nsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnrgr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmcae")
+}],
+"loop": true,
+"name": &"boxWalk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jr7n")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esrsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxip0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esrsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxvd4")
+}],
+"loop": true,
+"name": &"walkDown",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrgsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3ips")
+}],
+"loop": true,
+"name": &"walkLeft",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4tbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipssx")
+}],
+"loop": true,
+"name": &"walkRight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ax1wx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lj2vl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ax1wx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32we8")
+}],
+"loop": true,
+"name": &"walkUp",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xrmqg"]
+radius = 4.0
+
+[node name="Snake" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_sikn2")
+animation = &"boxWalk"
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+visible = false
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_xrmqg")
+script = ExtResource("2_lnrgr")
+
+[node name="Camera2D" type="Camera2D" parent="."]
