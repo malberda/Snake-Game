@@ -1,17 +1,11 @@
 extends CharacterBody2D
 
-var speed = 200;
+var speed = 100;
 var box = false;
 @onready var snake_collision_area: Area2D = $snakeCollisionArea
 
-
 func _physics_process(_delta: float) -> void:
 	process_movement();
-	
-	
-	
-	
-	
 	
 func process_movement():
 	var input_direction = Input.get_vector("left", "right", "up", "down")

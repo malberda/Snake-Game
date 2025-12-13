@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cc30gy4xrxmp1"]
+[gd_scene load_steps=17 format=3 uid="uid://cc30gy4xrxmp1"]
 
 [ext_resource type="Script" uid="uid://ccyoj473ksc82" path="res://assets/scripts/enemy.gd" id="1_kbpvo"]
 [ext_resource type="Texture2D" uid="uid://dnvctahc7mobi" path="res://assets/sprites/enemy_sprite_v1-Sheet.png" id="1_kvq5h"]
@@ -80,15 +80,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o3hxu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o3hxu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o3hxu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o3hxu")
 }],
 "loop": true,
 "name": &"Question",
@@ -97,9 +88,61 @@ animations = [{
 
 [sub_resource type="Animation" id="Animation_yyvcd"]
 resource_name = "alert_pop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Alert:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Alert:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_l4rmu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Alert:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Alert:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4t03u"]
 _data = {
+&"RESET": SubResource("Animation_l4rmu"),
 &"alert_pop": SubResource("Animation_yyvcd")
 }
 
@@ -127,11 +170,11 @@ collision_mask = 2
 collision_mask = 2
 
 [node name="RayCast2D3" type="RayCast2D" parent="rayContainer"]
-target_position = Vector2(-8, 49)
+target_position = Vector2(-15, 46)
 collision_mask = 2
 
 [node name="RayCast2D4" type="RayCast2D" parent="rayContainer"]
-target_position = Vector2(-8, 49)
+target_position = Vector2(15, 47)
 collision_mask = 2
 
 [node name="RayCast2D5" type="RayCast2D" parent="rayContainer"]
@@ -142,10 +185,10 @@ collision_mask = 2
 stream = ExtResource("3_55kjn")
 
 [node name="Alert" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, -15)
 sprite_frames = SubResource("SpriteFrames_55kjn")
-animation = &"Question"
-frame_progress = 0.67589164
+animation = &"Exclaim"
+frame_progress = 0.73122776
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Alert"]
 root_node = NodePath("../..")

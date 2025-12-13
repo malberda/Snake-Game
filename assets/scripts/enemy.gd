@@ -15,6 +15,7 @@ var player_detected = 0; #0 is undetected, 1 is suspicious, 2 is found and kille
 @onready var timer: Timer = $Timer
 
 func _ready() -> void:
+	$Alert.hide()
 	snake = get_tree().get_current_scene().get_node("Snake") as Node2D;
 	
 	if snake:
@@ -63,6 +64,8 @@ func check_line_of_sight():
 				player_detected = 1;
 				break;
 	if player_detected:
+		$Alert.show()
+		$Alert/AnimationPlayer.play("alert_pop");
 		foundWav.play();
 		print("player found");
 	else:

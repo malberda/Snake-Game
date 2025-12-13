@@ -154,6 +154,7 @@ collision_layer = 2
 script = ExtResource("2_lnrgr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 5
 position = Vector2(-1.9073486e-06, 1.9073486e-06)
 scale = Vector2(3.875, 3.875)
 sprite_frames = SubResource("SpriteFrames_xrmqg")
