@@ -14,6 +14,10 @@ config/name="Snake Game"
 run/main_scene="uid://ci4p51is0wfda"
 config/features=PackedStringArray("4.5", "Forward Plus")
 
+[autoload]
+
+Global="*res://assets/scripts/global.gd"
+
 [dotnet]
 
 project/assembly_name="Snake Game"

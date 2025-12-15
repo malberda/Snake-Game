@@ -1,13 +1,18 @@
 extends CharacterBody2D
 
+
 const directionArray = ['up', 'down', 'left', 'right']
 
+var movingForward := true
 var rays : Array
 var AIPathing
 var rng = RandomNumberGenerator.new()
 var index = 0
+var extraStep = false;
+const speed = 25
 var snake: Node2D #assigned at runtime
 var player_detected = 0; #0 is undetected, 1 is suspicious, 2 is found and killed.
+var amountOfMoves
 
 @onready var ray_container: Node2D = $rayContainer
 @onready var foundWav: AudioStreamPlayer2D = $AudioStreamPlayer2D
@@ -18,12 +23,8 @@ func _ready() -> void:
 	$Alert.hide()
 	snake = get_tree().get_current_scene().get_node("Snake") as Node2D;
 	
-	if snake:
-		print("found snake");
-	else:
-		print("aint found anything")
 	rays = ray_container.get_children()
-	var amountOfMoves = rng.randf_range(4, 8)
+	amountOfMoves = 3#rng.randf_range(4, 8)
 	AIPathing = []
 	AIPathing.resize(amountOfMoves)
 	for i in range(amountOfMoves):
@@ -36,8 +37,23 @@ func _ready() -> void:
 	timer.start();
 
 func _on_timer_timeout():
+	if(index == AIPathing.size() && movingForward):
+		movingForward = false
+		index -= 1
+		extraStep = true;
+	elif (index == 0 && !movingForward):
+		movingForward = true;
 	var currentPath = AIPathing[index % AIPathing.size()]
 	var wait_time = currentPath[0]
+	if !movingForward || extraStep:
+		if currentPath[1] == 'left':
+			currentPath[1] = 'right'
+		elif currentPath[1] == 'right':
+			currentPath[1] = 'left'
+		elif currentPath[1] == 'up':
+			currentPath[1] = 'down'
+		elif currentPath[1] == 'down':
+			currentPath[1] = 'up'
 	$AnimatedSprite2D.play(currentPath[1]);
 	if (currentPath[1] == 'left'):
 		ray_container.rotation_degrees = 90
@@ -47,13 +63,30 @@ func _on_timer_timeout():
 		ray_container.rotation_degrees = 180
 	elif (currentPath[1] == 'down'):
 		ray_container.rotation_degrees = 0
-	index+=1;
+	
+	if movingForward:
+		index += 1
+	else:
+		index -= 1
+	if extraStep && index == 1 && movingForward:
+		index -= 1
+		extraStep = false;
+	var direction = getDirection(currentPath[1])
+	
+	velocity = direction*speed;
+	move_and_slide();
 	timer.wait_time = wait_time;
 	timer.start();
 
 func _process(_delta):
-	if player_detected == 0:
-		check_line_of_sight();
+	if Global.paused:
+		timer.stop()
+	else:
+		if timer.paused:
+			timer.start()
+		move_and_slide();
+		if player_detected == 0:
+			check_line_of_sight();
 	
 func check_line_of_sight():
 	for ray in rays:
@@ -67,8 +100,16 @@ func check_line_of_sight():
 		$Alert.show()
 		$Alert/AnimationPlayer.play("alert_pop");
 		foundWav.play();
-		print("player found");
 	else:
-		print("snake not found")
 		player_detected = 0;
 		pass
+		
+func getDirection(direction):
+	if (direction == 'left'):
+		return Vector2.LEFT;
+	elif (direction == 'right'):
+		return Vector2.RIGHT;
+	elif (direction == 'up'):
+		return Vector2.UP;
+	elif (direction == 'down'):
+		return Vector2.DOWN;

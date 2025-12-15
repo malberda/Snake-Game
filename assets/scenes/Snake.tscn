@@ -1,11 +1,16 @@
-[gd_scene load_steps=20 format=3 uid="uid://dvi0cm1jc20f8"]
+[gd_scene load_steps=23 format=3 uid="uid://dvi0cm1jc20f8"]
 
 [ext_resource type="Texture2D" uid="uid://b728rosowdity" path="res://assets/sprites/snake_attempt_1.png" id="1_1jr7n"]
 [ext_resource type="Script" uid="uid://sypipb7eommd" path="res://assets/scripts/snake.gd" id="2_lnrgr"]
+[ext_resource type="Texture2D" uid="uid://dc5cngjj11eo0" path="res://assets/backgrounds/snowflake.png" id="3_lnrgr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jr7n"]
 atlas = ExtResource("1_1jr7n")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suy3h"]
+atlas = ExtResource("1_1jr7n")
+region = Rect2(64, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lrgsl"]
 atlas = ExtResource("1_1jr7n")
@@ -67,6 +72,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suy3h")
+}],
+"loop": true,
+"name": &"defaultUp",
 "speed": 5.0
 }, {
 "frames": [{
@@ -143,13 +156,31 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1jr7n"]
-radius = 15.033297
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lnrgr"]
+lifetime_randomness = 0.42
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(400, 200, 1)
+angle_min = 7.400011
+angle_max = 33.400013
+inherit_velocity_ratio = 0.375
+direction = Vector3(1.015, 0, 0)
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = 0.9999839
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 0.010000096
+gravity = Vector3(0, 30, 0)
+scale_min = 0.39999998
+scale_max = 0.7
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_esrsn"]
-radius = 3.9052255
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1jr7n"]
+size = Vector2(32.407463, 35.93751)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnrgr"]
+size = Vector2(9.806453, 13.161291)
 
 [node name="Snake" type="CharacterBody2D"]
+scale = Vector2(0.35999757, 0.35999757)
 collision_layer = 2
 script = ExtResource("2_lnrgr")
 
@@ -158,22 +189,35 @@ z_index = 5
 position = Vector2(-1.9073486e-06, 1.9073486e-06)
 scale = Vector2(3.875, 3.875)
 sprite_frames = SubResource("SpriteFrames_xrmqg")
+animation = &"defaultUp"
 autoplay = "default"
-frame_progress = 0.9734627
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1, 1)
+zoom = Vector2(2.565, 2.565)
 position_smoothing_enabled = true
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D"]
+scale = Vector2(1.5600009, 1.5600009)
+amount = 58
+sub_emitter = NodePath(".")
+texture = ExtResource("3_lnrgr")
+lifetime = 1.78
+trail_lifetime = 0.22
+process_material = SubResource("ParticleProcessMaterial_lnrgr")
+
 [node name="snakeCollisionArea" type="Area2D" parent="."]
+scale = Vector2(1.1600006, 1.2799997)
 collision_layer = 2
 collision_mask = 2
 
 [node name="snakeCollision" type="CollisionShape2D" parent="snakeCollisionArea"]
-shape = SubResource("CircleShape2D_1jr7n")
+position = Vector2(-0.46296355, -3.1250007)
+shape = SubResource("RectangleShape2D_1jr7n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 top_level = true
 z_index = 5
-position = Vector2(-1.9073486e-06, 1.9073486e-06)
+position = Vector2(0, -1.4999995)
 scale = Vector2(3.875, 3.875)
-shape = SubResource("CircleShape2D_esrsn")
+shape = SubResource("RectangleShape2D_lnrgr")

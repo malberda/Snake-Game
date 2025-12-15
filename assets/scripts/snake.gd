@@ -1,11 +1,28 @@
 extends CharacterBody2D
 
-var speed = 100;
+const base_speed = 100
+var speed;
 var box = false;
-@onready var snake_collision_area: Area2D = $snakeCollisionArea
+var last_camera_position: Vector2;
 
+@onready var snake: CharacterBody2D = $"."
+@onready var snake_collision_area: Area2D = $snakeCollisionArea
+@onready var snowfall: GPUParticles2D = $Camera2D/GPUParticles2D
+@onready var camera: Camera2D = $Camera2D
+
+func _ready():
+	last_camera_position = camera.global_position;
+	
 func _physics_process(_delta: float) -> void:
-	process_movement();
+	if !Global.paused:
+		var cam_delta = camera.global_position - last_camera_position 
+		last_camera_position = camera.global_position;
+		var mat := snowfall.process_material as ParticleProcessMaterial
+		process_movement();
+		if mat:
+			mat.gravity.x = - cam_delta.x / max(_delta, 0.001)*0.15;
+	else:
+		$AnimatedSprite2D.play("defaultUp");
 	
 func process_movement():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -16,10 +33,10 @@ func process_movement():
 		box = false;
 	
 	if Input.is_action_pressed("Shift"):
-		speed = 100
+		speed = floor(base_speed/2)
 		$AnimatedSprite2D.speed_scale = 0.5
 	else:
-		speed = 200
+		speed = base_speed
 		$AnimatedSprite2D.speed_scale = 1
 		
 	if Input.is_action_pressed("right"):
