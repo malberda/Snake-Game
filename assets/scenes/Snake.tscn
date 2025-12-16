@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dvi0cm1jc20f8"]
+[gd_scene load_steps=24 format=3 uid="uid://dvi0cm1jc20f8"]
 
 [ext_resource type="Texture2D" uid="uid://b728rosowdity" path="res://assets/sprites/snake_attempt_1.png" id="1_1jr7n"]
 [ext_resource type="Script" uid="uid://sypipb7eommd" path="res://assets/scripts/snake.gd" id="2_lnrgr"]
@@ -179,6 +179,8 @@ size = Vector2(32.407463, 35.93751)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnrgr"]
 size = Vector2(9.806453, 13.161291)
 
+[sub_resource type="CurveTexture" id="CurveTexture_lnrgr"]
+
 [node name="Snake" type="CharacterBody2D"]
 scale = Vector2(0.35999757, 0.35999757)
 collision_layer = 2
@@ -189,7 +191,6 @@ z_index = 5
 position = Vector2(-1.9073486e-06, 1.9073486e-06)
 scale = Vector2(3.875, 3.875)
 sprite_frames = SubResource("SpriteFrames_xrmqg")
-animation = &"defaultUp"
 autoplay = "default"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -221,3 +222,8 @@ z_index = 5
 position = Vector2(0, -1.4999995)
 scale = Vector2(3.875, 3.875)
 shape = SubResource("RectangleShape2D_lnrgr")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 2.85
+texture = SubResource("CurveTexture_lnrgr")
+texture_scale = 3.2

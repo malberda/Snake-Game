@@ -1,0 +1,7 @@
+[gd_resource type="AnimatedTexture" load_steps=0 format=3 uid="uid://rbscbn81mini"]
+
+[resource]
+frames = 4
+frame_1/duration = 1.0
+frame_2/duration = 1.0
+frame_3/duration = 1.0

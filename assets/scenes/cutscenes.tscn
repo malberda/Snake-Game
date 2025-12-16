@@ -1,15 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://c02esvoenh12h"]
+[gd_scene load_steps=8 format=3 uid="uid://c02esvoenh12h"]
 
 [ext_resource type="Script" uid="uid://cuyij58iewxlw" path="res://assets/scripts/codeccall1.gd" id="1_ao1cf"]
 [ext_resource type="AudioStream" uid="uid://d2tquaj7h700d" path="res://assets/audio/codeccall.wav" id="2_uujnr"]
 [ext_resource type="Texture2D" uid="uid://db3v86da4qdsy" path="res://assets/backgrounds/codecCall.jpg" id="3_vbhtn"]
 [ext_resource type="Texture2D" uid="uid://bg57lwypbgmm6" path="res://assets/backgrounds/codecBackground.webp" id="4_jia17"]
+[ext_resource type="Texture2D" uid="uid://dyo0yhg76h4y2" path="res://assets/backgrounds/mgsGameOver.jpg" id="5_yfb6r"]
+[ext_resource type="AudioStream" uid="uid://ctie7us78lwaf" path="res://assets/audio/gameover.wav" id="6_5qefv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aogj5"]
 
 [node name="CutScenes" type="Node2D"]
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 z_index = 10
 z_as_relative = false
 collision_layer = 3
@@ -19,7 +22,7 @@ script = ExtResource("1_ao1cf")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_aogj5")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="Found" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_uujnr")
 
 [node name="CodecCallBackground" type="Sprite2D" parent="."]
@@ -33,6 +36,17 @@ scale = Vector2(0.57656306, 0.57656306)
 texture = ExtResource("3_vbhtn")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="GameOverScreen" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.28011373, 0.28011373)
+texture = ExtResource("5_yfb6r")
+
+[node name="GameOver" type="AudioStreamPlayer2D" parent="."]
+scale = Vector2(0.28011373, 0.28011373)
+stream = ExtResource("6_5qefv")
+
+[node name="GameOverTimer" type="Timer" parent="."]
 
 [connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]
 [connection signal="area_shape_entered" from="Area2D" to="Area2D" method="_on_area_shape_entered"]

@@ -72,6 +72,8 @@ func process_movement():
 			$AnimatedSprite2D.play("walkDown")
 		input_direction.x = 0
 	else:
+		if (box):
+			$AnimatedSprite2D.frame = 0
 		$AnimatedSprite2D.pause()
 		input_direction = Vector2.ZERO
 		

@@ -13,6 +13,7 @@ const speed = 25
 var snake: Node2D #assigned at runtime
 var player_detected = 0; #0 is undetected, 1 is suspicious, 2 is found and killed.
 var amountOfMoves
+var lastPosition
 
 @onready var ray_container: Node2D = $rayContainer
 @onready var foundWav: AudioStreamPlayer2D = $AudioStreamPlayer2D
@@ -20,11 +21,12 @@ var amountOfMoves
 @onready var timer: Timer = $Timer
 
 func _ready() -> void:
+	if floor(rng.randf_range(0, 3)) == 1:
+		queue_free()
 	$Alert.hide()
 	snake = get_tree().get_current_scene().get_node("Snake") as Node2D;
-	
 	rays = ray_container.get_children()
-	amountOfMoves = 3#rng.randf_range(4, 8)
+	amountOfMoves = rng.randf_range(4, 8)
 	AIPathing = []
 	AIPathing.resize(amountOfMoves)
 	for i in range(amountOfMoves):
@@ -32,7 +34,7 @@ func _ready() -> void:
 			rng.randf_range(1, 5), 
 			directionArray[randi() % directionArray.size()]
 		]
-	timer.wait_time = AIPathing[0][0];
+	timer.wait_time = 0.01;
 	timer.timeout.connect(_on_timer_timeout)
 	timer.start();
 
@@ -80,11 +82,14 @@ func _on_timer_timeout():
 
 func _process(_delta):
 	if Global.paused:
-		timer.stop()
+		timer.paused = true
 	else:
 		if timer.paused:
-			timer.start()
+			timer.paused = false
 		move_and_slide();
+		if velocity.is_zero_approx():
+			timer.stop()
+			timer.emit_signal("timeout")
 		if player_detected == 0:
 			check_line_of_sight();
 	
@@ -94,12 +99,16 @@ func check_line_of_sight():
 		if ray.is_colliding():
 			var collider = ray.get_collider();
 			if collider == snake:
+				if (snake.get_node("AnimatedSprite2D").animation == 'walkBox'):
+					if (snake.get_node("AnimatedSprite2D").frame == 0):
+						break
 				player_detected = 1;
 				break;
 	if player_detected:
 		$Alert.show()
 		$Alert/AnimationPlayer.play("alert_pop");
 		foundWav.play();
+		Global.caught = true
 	else:
 		player_detected = 0;
 		pass
