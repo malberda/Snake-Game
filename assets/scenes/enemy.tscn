@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cc30gy4xrxmp1"]
+[gd_scene load_steps=29 format=3 uid="uid://cc30gy4xrxmp1"]
 
 [ext_resource type="Script" uid="uid://ccyoj473ksc82" path="res://assets/scripts/enemy.gd" id="1_kbpvo"]
 [ext_resource type="Texture2D" uid="uid://dnvctahc7mobi" path="res://assets/sprites/enemy_sprite_v1-Sheet.png" id="1_kvq5h"]
@@ -215,6 +215,15 @@ _data = {
 &"alert_pop": SubResource("Animation_yyvcd")
 }
 
+[sub_resource type="Gradient" id="Gradient_ovi8q"]
+offsets = PackedFloat32Array(0.15109034, 0.5872274)
+colors = PackedColorArray(0.90588236, 0.8784314, 0.18431373, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t2q6g"]
+gradient = SubResource("Gradient_ovi8q")
+fill = 1
+fill_from = Vector2(0.4957265, 0.5555556)
+
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_kbpvo")
 
@@ -229,28 +238,37 @@ shape = SubResource("CircleShape2D_kvq5h")
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="rayContainer" type="Node2D" parent="."]
+[node name="FrontFacingRays" type="Node2D" parent="."]
 
-[node name="RayCast2D" type="RayCast2D" parent="rayContainer"]
+[node name="RayCast2D" type="RayCast2D" parent="FrontFacingRays"]
 target_position = Vector2(7, 49)
 collision_mask = 2
 
-[node name="RayCast2D2" type="RayCast2D" parent="rayContainer"]
+[node name="RayCast2D2" type="RayCast2D" parent="FrontFacingRays"]
 collision_mask = 2
 
-[node name="RayCast2D3" type="RayCast2D" parent="rayContainer"]
+[node name="RayCast2D3" type="RayCast2D" parent="FrontFacingRays"]
 target_position = Vector2(-15, 46)
 collision_mask = 2
 
-[node name="RayCast2D4" type="RayCast2D" parent="rayContainer"]
+[node name="RayCast2D4" type="RayCast2D" parent="FrontFacingRays"]
 target_position = Vector2(15, 47)
 collision_mask = 2
 
-[node name="RayCast2D5" type="RayCast2D" parent="rayContainer"]
+[node name="RayCast2D5" type="RayCast2D" parent="FrontFacingRays"]
 target_position = Vector2(-8, 49)
 collision_mask = 2
 
+[node name="PeripheralRays" type="Node2D" parent="."]
+
+[node name="RayCast2D6" type="RayCast2D" parent="PeripheralRays"]
+target_position = Vector2(30, 0)
+
+[node name="RayCast2D7" type="RayCast2D" parent="PeripheralRays"]
+target_position = Vector2(-30, 0)
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(19, -16)
 stream = ExtResource("3_55kjn")
 
 [node name="Alert" type="AnimatedSprite2D" parent="."]
@@ -264,3 +282,15 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_4t03u")
 }
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-2.861023e-06, -2.2737368e-13)
+scale = Vector2(1.4999999, 1.4999999)
+energy = 0.54
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_t2q6g")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0.8738877, 0.9175263, 0.9995778, 1)
+polygon = PackedVector2Array(-64, -64, -64, 72, 64, 72, 64, -64)

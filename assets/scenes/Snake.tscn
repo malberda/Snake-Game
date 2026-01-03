@@ -225,5 +225,6 @@ shape = SubResource("RectangleShape2D_lnrgr")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 energy = 2.85
+shadow_enabled = true
 texture = SubResource("CurveTexture_lnrgr")
 texture_scale = 3.2

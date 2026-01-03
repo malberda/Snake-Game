@@ -4,7 +4,8 @@ extends CharacterBody2D
 const directionArray = ['up', 'down', 'left', 'right']
 
 var movingForward := true
-var rays : Array
+var frontFacingRays : Array
+var peripheralRays : Array
 var AIPathing
 var rng = RandomNumberGenerator.new()
 var index = 0
@@ -15,7 +16,8 @@ var player_detected = 0; #0 is undetected, 1 is suspicious, 2 is found and kille
 var amountOfMoves
 var lastPosition
 
-@onready var ray_container: Node2D = $rayContainer
+@onready var frontFacingRayContainer: Node2D = $FrontFacingRays
+@onready var peripheralRayContainer: Node2D = $PeripheralRays
 @onready var foundWav: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var timer: Timer = $Timer
@@ -25,7 +27,8 @@ func _ready() -> void:
 		queue_free()
 	$Alert.hide()
 	snake = get_tree().get_current_scene().get_node("Snake") as Node2D;
-	rays = ray_container.get_children()
+	frontFacingRays = frontFacingRayContainer.get_children()
+	peripheralRays = peripheralRayContainer.get_children()
 	amountOfMoves = rng.randf_range(4, 8)
 	AIPathing = []
 	AIPathing.resize(amountOfMoves)
@@ -58,13 +61,13 @@ func _on_timer_timeout():
 			currentPath[1] = 'up'
 	$AnimatedSprite2D.play(currentPath[1]);
 	if (currentPath[1] == 'left'):
-		ray_container.rotation_degrees = 90
+		frontFacingRayContainer.rotation_degrees = 90
 	elif (currentPath[1] == 'right'):
-		ray_container.rotation_degrees = 270
+		frontFacingRayContainer.rotation_degrees = 270
 	elif (currentPath[1] == 'up'):
-		ray_container.rotation_degrees = 180
+		frontFacingRayContainer.rotation_degrees = 180
 	elif (currentPath[1] == 'down'):
-		ray_container.rotation_degrees = 0
+		frontFacingRayContainer.rotation_degrees = 0
 	
 	if movingForward:
 		index += 1
@@ -94,7 +97,7 @@ func _process(_delta):
 			check_line_of_sight();
 	
 func check_line_of_sight():
-	for ray in rays:
+	for ray in frontFacingRays:
 		ray.force_raycast_update()
 		if ray.is_colliding():
 			var collider = ray.get_collider();
@@ -104,6 +107,18 @@ func check_line_of_sight():
 						break
 				player_detected = 1;
 				break;
+	
+	for ray in peripheralRays:
+		ray.force_raycast_update()
+		if ray.is_colliding():
+			var collider = ray.get_collider();
+			if collider == snake:
+				if (snake.get_node("AnimatedSprite2D").animation == 'walkBox'):
+					if (snake.get_node("AnimatedSprite2D").frame == 0):
+						break
+				player_detected = 1;
+				break;
+				
 	if player_detected:
 		$Alert.show()
 		$Alert/AnimationPlayer.play("alert_pop");

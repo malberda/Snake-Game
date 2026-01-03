@@ -4,6 +4,7 @@ const base_speed = 100
 var speed;
 var box = false;
 var last_camera_position: Vector2;
+var sneaking: bool;
 
 @onready var snake: CharacterBody2D = $"."
 @onready var snake_collision_area: Area2D = $snakeCollisionArea
