@@ -4,6 +4,7 @@ const base_speed = 100
 var speed;
 var box = false;
 var last_camera_position: Vector2;
+var sneaking: bool;
 
 @onready var snake: CharacterBody2D = $"."
 @onready var snake_collision_area: Area2D = $snakeCollisionArea
@@ -15,12 +16,8 @@ func _ready():
 	
 func _physics_process(_delta: float) -> void:
 	if !Global.paused:
-		var cam_delta = camera.global_position - last_camera_position 
 		last_camera_position = camera.global_position;
-		var mat := snowfall.process_material as ParticleProcessMaterial
 		process_movement();
-		if mat:
-			mat.gravity.x = - cam_delta.x / max(_delta, 0.001)*0.15;
 	else:
 		$AnimatedSprite2D.play("defaultUp");
 	
@@ -33,7 +30,7 @@ func process_movement():
 		box = false;
 	
 	if Input.is_action_pressed("Shift"):
-		speed = floor(base_speed/2)
+		speed = floor(base_speed/2.0)
 		$AnimatedSprite2D.speed_scale = 0.5
 	else:
 		speed = base_speed
@@ -80,3 +77,6 @@ func process_movement():
 	input_direction = input_direction.normalized()
 	velocity = input_direction*speed;
 	move_and_slide();
+	
+func is_in_box():
+	return $AnimatedSprite2D.animation == 'walkBox' && $AnimatedSprite2D.frame == 0

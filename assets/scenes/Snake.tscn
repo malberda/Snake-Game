@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://b728rosowdity" path="res://assets/sprites/snake_attempt_1.png" id="1_1jr7n"]
 [ext_resource type="Script" uid="uid://sypipb7eommd" path="res://assets/scripts/snake.gd" id="2_lnrgr"]
-[ext_resource type="Texture2D" uid="uid://dc5cngjj11eo0" path="res://assets/backgrounds/snowflake.png" id="3_lnrgr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jr7n"]
 atlas = ExtResource("1_1jr7n")
@@ -156,30 +155,25 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lnrgr"]
-lifetime_randomness = 0.42
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(400, 200, 1)
-angle_min = 7.400011
-angle_max = 33.400013
-inherit_velocity_ratio = 0.375
-direction = Vector3(1.015, 0, 0)
-angular_velocity_min = -1.6093254e-05
-angular_velocity_max = 0.9999839
-orbit_velocity_min = 9.49949e-08
-orbit_velocity_max = 0.010000096
-gravity = Vector3(0, 30, 0)
-scale_min = 0.39999998
-scale_max = 0.7
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1jr7n"]
 size = Vector2(32.407463, 35.93751)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnrgr"]
-size = Vector2(9.806453, 13.161291)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jr7n"]
+radius = 4.1290317
+height = 8.258063
 
-[sub_resource type="CurveTexture" id="CurveTexture_lnrgr"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnrgr"]
+size = Vector2(9.032259, 12.387098)
+
+[sub_resource type="Gradient" id="Gradient_1jr7n"]
+offsets = PackedFloat32Array(0.14330219, 0.8551402)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lnrgr"]
+gradient = SubResource("Gradient_1jr7n")
+fill = 1
+fill_from = Vector2(0.508547, 0.53418803)
+fill_to = Vector2(1, 1)
 
 [node name="Snake" type="CharacterBody2D"]
 scale = Vector2(0.35999757, 0.35999757)
@@ -198,32 +192,33 @@ position = Vector2(1, 1)
 zoom = Vector2(2.565, 2.565)
 position_smoothing_enabled = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Camera2D"]
-scale = Vector2(1.5600009, 1.5600009)
-amount = 58
-sub_emitter = NodePath(".")
-texture = ExtResource("3_lnrgr")
-lifetime = 1.78
-trail_lifetime = 0.22
-process_material = SubResource("ParticleProcessMaterial_lnrgr")
-
 [node name="snakeCollisionArea" type="Area2D" parent="."]
 scale = Vector2(1.1600006, 1.2799997)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 
 [node name="snakeCollision" type="CollisionShape2D" parent="snakeCollisionArea"]
 position = Vector2(-0.46296355, -3.1250007)
 shape = SubResource("RectangleShape2D_1jr7n")
 
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -4.1666937)
+scale = Vector2(10.763963, 10.763963)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_1jr7n")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 top_level = true
 z_index = 5
-position = Vector2(0, -1.4999995)
+position = Vector2(-1.5000005, 0)
 scale = Vector2(3.875, 3.875)
 shape = SubResource("RectangleShape2D_lnrgr")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-energy = 2.85
-texture = SubResource("CurveTexture_lnrgr")
+position = Vector2(0, 5.033055e-07)
+scale = Vector2(0.43403065, 0.4340307)
+energy = 0.51
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_lnrgr")
 texture_scale = 3.2

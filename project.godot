@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Snake Game"
-run/main_scene="uid://ci4p51is0wfda"
+run/main_scene="uid://d3vl2ojnrytsp"
 config/features=PackedStringArray("4.5", "Forward Plus")
 
 [autoload]
 
 Global="*res://assets/scripts/global.gd"
+EventBus="*res://assets/scripts/EventBus.gd"
 
 [dotnet]
 

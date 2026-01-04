@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cc30gy4xrxmp1"]
+[gd_scene load_steps=29 format=3 uid="uid://cc30gy4xrxmp1"]
 
 [ext_resource type="Script" uid="uid://ccyoj473ksc82" path="res://assets/scripts/enemy.gd" id="1_kbpvo"]
 [ext_resource type="Texture2D" uid="uid://dnvctahc7mobi" path="res://assets/sprites/enemy_sprite_v1-Sheet.png" id="1_kvq5h"]
@@ -213,19 +213,16 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_ovi8q"]
-offsets = PackedFloat32Array(0, 0.81931466, 0.9953271, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.81931466, 0.81931466, 0.81931466, 1, 0.83423537, 0.6061061, 0.37165275, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0.15109034, 0.5872274)
+colors = PackedColorArray(0.90588236, 0.8784314, 0.18431373, 1, 0, 0, 0, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_t2q6g"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t2q6g"]
 gradient = SubResource("Gradient_ovi8q")
-use_hdr = true
+fill = 1
+fill_from = Vector2(0.4957265, 0.5555556)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ovi8q"]
 radius = 8.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ovi8q"]
-radius = 8.0
-height = 16.0
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_kbpvo")
@@ -238,23 +235,22 @@ autoplay = "standingStill"
 [node name="FrontFacingRays" type="Node2D" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="FrontFacingRays"]
-target_position = Vector2(40, -16)
+target_position = Vector2(7, 49)
 collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="FrontFacingRays"]
-target_position = Vector2(40, 0)
 collision_mask = 2
 
 [node name="RayCast2D3" type="RayCast2D" parent="FrontFacingRays"]
-target_position = Vector2(40, 16)
+target_position = Vector2(-15, 46)
 collision_mask = 2
 
 [node name="RayCast2D4" type="RayCast2D" parent="FrontFacingRays"]
-target_position = Vector2(40, -8)
+target_position = Vector2(15, 47)
 collision_mask = 2
 
 [node name="RayCast2D5" type="RayCast2D" parent="FrontFacingRays"]
-target_position = Vector2(40, 8)
+target_position = Vector2(-8, 49)
 collision_mask = 2
 
 [node name="SoundRays" type="Node2D" parent="."]
@@ -296,7 +292,6 @@ target_position = Vector2(-96, -40)
 [node name="FoundAudio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(19, -16)
 stream = ExtResource("3_55kjn")
-volume_db = -80.0
 
 [node name="Alert" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -15)
@@ -311,34 +306,28 @@ libraries = {
 }
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(22.168419, 0.1116775)
-rotation = 3.1415927
-scale = Vector2(0.17031957, 33.610878)
-color = Color(0.96216553, 0.96287996, 0.96102077, 1)
-energy = 0.31
+position = Vector2(-2.861023e-06, -2.2737368e-13)
+scale = Vector2(1.4999999, 1.4999999)
+energy = 0.54
 shadow_enabled = true
-texture = SubResource("GradientTexture1D_t2q6g")
+texture = SubResource("GradientTexture2D_t2q6g")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 z_index = -1
-color = Color(0.30803236, 0.2669024, 0.047680236, 1)
+color = Color(0.8738877, 0.9175263, 0.9995778, 1)
 polygon = PackedVector2Array(-64, -64, -64, 72, 64, 72, 64, -64)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
 debug_enabled = true
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 3
-collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_ovi8q")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_ovi8q")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
