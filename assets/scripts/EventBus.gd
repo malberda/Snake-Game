@@ -1,7 +1,10 @@
 extends Node
 
-signal snake_spotted(snake)
-signal snake_killed(snake)
+signal player_spotted(snake)
+signal player_killed(snake)
+
+signal player_update_stamina(stamina: int)
+signal player_update_health(health: int)
 
 var current_scene: Node = null
 

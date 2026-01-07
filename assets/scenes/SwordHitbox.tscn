@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfr2w1w1o3am5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wg1jq"]
+size = Vector2(16, 32)
+
+[node name="SwordHitbox" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_wg1jq")
+
+[node name="Polygon2D" type="Polygon2D" parent="CollisionShape2D"]
+polygon = PackedVector2Array(-8, -8, -8, 16, 8, 16, 8, -16, -8, -16)

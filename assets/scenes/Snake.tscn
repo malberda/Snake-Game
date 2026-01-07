@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dvi0cm1jc20f8"]
+[gd_scene load_steps=23 format=3 uid="uid://dvi0cm1jc20f8"]
 
 [ext_resource type="Texture2D" uid="uid://b728rosowdity" path="res://assets/sprites/snake_attempt_1.png" id="1_1jr7n"]
 [ext_resource type="Script" uid="uid://sypipb7eommd" path="res://assets/scripts/snake.gd" id="2_lnrgr"]
@@ -96,7 +96,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walkBox",
-"speed": 2.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -158,16 +158,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1jr7n"]
 size = Vector2(32.407463, 35.93751)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jr7n"]
-radius = 4.1290317
-height = 8.258063
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lnrgr"]
 size = Vector2(9.032259, 12.387098)
 
 [sub_resource type="Gradient" id="Gradient_1jr7n"]
 offsets = PackedFloat32Array(0.14330219, 0.8551402)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_lnrgr"]
 gradient = SubResource("Gradient_1jr7n")
@@ -175,7 +171,7 @@ fill = 1
 fill_from = Vector2(0.508547, 0.53418803)
 fill_to = Vector2(1, 1)
 
-[node name="Snake" type="CharacterBody2D"]
+[node name="Snake" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.35999757, 0.35999757)
 collision_layer = 2
 script = ExtResource("2_lnrgr")
@@ -185,6 +181,7 @@ z_index = 5
 position = Vector2(-1.9073486e-06, 1.9073486e-06)
 scale = Vector2(3.875, 3.875)
 sprite_frames = SubResource("SpriteFrames_xrmqg")
+animation = &"walkDown"
 autoplay = "default"
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -192,23 +189,17 @@ position = Vector2(1, 1)
 zoom = Vector2(2.565, 2.565)
 position_smoothing_enabled = true
 
-[node name="snakeCollisionArea" type="Area2D" parent="."]
+[node name="snakeCollisionArea" type="Area2D" parent="." groups=["player"]]
 scale = Vector2(1.1600006, 1.2799997)
 collision_layer = 3
 collision_mask = 3
 
-[node name="snakeCollision" type="CollisionShape2D" parent="snakeCollisionArea"]
+[node name="snakeCollision" type="CollisionShape2D" parent="snakeCollisionArea" groups=["player"]]
 position = Vector2(-0.46296355, -3.1250007)
 shape = SubResource("RectangleShape2D_1jr7n")
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(0, -4.1666937)
-scale = Vector2(10.763963, 10.763963)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CapsuleShape2D_1jr7n")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 top_level = true
 z_index = 5
 position = Vector2(-1.5000005, 0)
@@ -216,9 +207,17 @@ scale = Vector2(3.875, 3.875)
 shape = SubResource("RectangleShape2D_lnrgr")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, 5.033055e-07)
-scale = Vector2(0.43403065, 0.4340307)
+position = Vector2(-11.111225, -3.8146973e-05)
+scale = Vector2(5.316876, 5.2083683)
 energy = 0.51
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_lnrgr")
 texture_scale = 3.2
+
+[node name="StaminaTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="snakeCollisionArea" to="." method="_on_snake_collision_area_body_entered"]
+[connection signal="timeout" from="StaminaTimer" to="." method="_on_stamina_timer_timeout"]

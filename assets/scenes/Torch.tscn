@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy0hqmlsslktu"]
+
+[ext_resource type="Script" uid="uid://dyiqutra3dqsb" path="res://assets/scenes/torch.gd" id="1_kille"]
+
+[sub_resource type="Gradient" id="Gradient_kille"]
+colors = PackedColorArray(1, 0.57254905, 0.39215687, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8tlen"]
+gradient = SubResource("Gradient_kille")
+fill = 1
+fill_from = Vector2(0.508547, 0.52136755)
+fill_to = Vector2(0.1965812, 0.86752135)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kille"]
+
+[node name="Torch" type="Node2D" groups=["torch"]]
+script = ExtResource("1_kille")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-5.722046e-06, -5.722046e-06)
+scale = Vector2(5.9999995, 5.9999995)
+energy = 0.13
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_8tlen")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["torch"]]
+shape = SubResource("CircleShape2D_kille")

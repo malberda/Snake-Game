@@ -6,7 +6,8 @@ extends PathFollow2D
 var stop_following = false
 
 func _ready():
-	EventBus.connect("snake_spotted", _on_snake_spotted)
+	EventBus.connect("player_spotted", _on_snake_spotted)
+	self.rotates = false
 	
 func _on_snake_spotted():
 	set_process(false)

@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://delebic3jhjcf"]
+
+[ext_resource type="Script" uid="uid://c3ulf802qt22r" path="res://assets/scenes/hud.gd" id="1_tdbfj"]
+[ext_resource type="FontFile" uid="uid://b7acblg03funo" path="res://assets/fonts/DotGothic16-Regular.ttf" id="2_tdbfj"]
+
+[node name="HUD" type="Node2D"]
+script = ExtResource("1_tdbfj")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOver" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -236.0
+offset_right = 829.0
+offset_bottom = 199.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_tdbfj")
+theme_override_font_sizes/font_size = 300
+text = "Game Over"
+
+[node name="Stamina" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -928.0
+offset_top = -404.0
+offset_right = -628.0
+offset_bottom = -324.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_tdbfj")
+theme_override_font_sizes/font_size = 50
+text = "Stamina: 100"
+
+[node name="StaminaPollingTimer" type="Timer" parent="CanvasLayer/Stamina"]
+
+[node name="StaminaBorder" type="Polygon2D" parent="CanvasLayer/Stamina"]
+z_index = -1
+position = Vector2(112, -24)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(264, -8, 72, -8, -120, -8, -120, 0, -120, 16, 264, 16, 264, 0)
+
+[node name="StaminaBar" type="Polygon2D" parent="CanvasLayer/Stamina"]
+position = Vector2(112, -24)
+color = Color(0.60784316, 1, 0.14901961, 1)
+polygon = PackedVector2Array(255.39714, -4.7534637, -112.60286, -4.7534637, -112.60286, 11.246536, 255.39714, 11.246536)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+
+[connection signal="timeout" from="CanvasLayer/Stamina/StaminaPollingTimer" to="." method="_on_stamina_polling_timer_timeout"]

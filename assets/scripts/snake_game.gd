@@ -3,7 +3,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$GameOverScreen.hide_game_over()
+	$HUD.hide_game_over()
 	EventBus.connect("snake_killed", _on_snake_killed);
 	pass # Replace with function body.
 
@@ -11,7 +11,7 @@ func _on_snake_killed():
 	game_over();
 	
 func game_over():
-	$GameOverScreen.show_game_over()
+	$HUD.show_game_over()
 	Global.paused = true
 	get_tree().paused = true
 	
